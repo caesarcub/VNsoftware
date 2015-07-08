@@ -17,6 +17,9 @@ VNE.Tool = {
   parseText: function(text) {
     var newText = text
     var replaceData = newText.match(/\{(.*?)\}/g);
+    if (VNE.settings.useBrackets) {
+      replaceData = newText.match(/\[(.*?)\]/g);
+    }
     if (replaceData) {
       $.each(replaceData, function (index, value) {
         var dataKey = value.substring(1, value.length -1);

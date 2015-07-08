@@ -5,7 +5,7 @@ var VNE = VNE || {};
 VNE.Dialogue = {
   /* Show Action
    *
-   *  ['show', <characterKey>, <placement>, <flipped>]
+   *  ['show', <characterKey>, <placement>, <flipped>, <dress>]
    *
    *    <characterKey> = The Key for the character in question.-
    *    <placement> = Defined in system, usually 'left' 'right' and 'center'
@@ -22,6 +22,10 @@ VNE.Dialogue = {
       chara = VNE.characters[name];
       chara.info = VNE.cast[name];
       charaEl = $('<div>').addClass('full-body-character').addClass(name);
+      console.log(action)
+      if (action[4]) {
+        charaEl.addClass(action[4]);
+      }
       VNE.charactersEl[name] = charaEl;
 
       if (action[2]) {
@@ -272,6 +276,32 @@ VNE.Dialogue = {
     var storageName = action[1]
     if (VNE.settings.storage[storageName] !== undefined) {
       if (VNE.settings.storage[storageName] === action[2]) {
+        VNE.Dialogue[action[3][0]](action[3]);
+      } else {
+        VNE.Room.nextDialogue();
+      }
+    } else {
+      alert("Error found, check console.");
+      throw "Variable [" + action[1] + "] is not defined in settings. Please check for typos in Room " + VNE.currentSection + " action " + VNE.currentDialogue + ".";
+    }
+  },
+  greaterThan: function (action) {
+    var storageName = action[1]
+    if (VNE.settings.storage[storageName] !== undefined) {
+      if (VNE.settings.storage[storageName] > action[2]) {
+        VNE.Dialogue[action[3][0]](action[3]);
+      } else {
+        VNE.Room.nextDialogue();
+      }
+    } else {
+      alert("Error found, check console.");
+      throw "Variable [" + action[1] + "] is not defined in settings. Please check for typos in Room " + VNE.currentSection + " action " + VNE.currentDialogue + ".";
+    }
+  },
+  smallerThan: function (action) {
+    var storageName = action[1]
+    if (VNE.settings.storage[storageName] !== undefined) {
+      if (VNE.settings.storage[storageName] < action[2]) {
         VNE.Dialogue[action[3][0]](action[3]);
       } else {
         VNE.Room.nextDialogue();
