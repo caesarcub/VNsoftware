@@ -22,7 +22,6 @@ VNE.Dialogue = {
       chara = VNE.characters[name];
       chara.info = VNE.cast[name];
       charaEl = $('<div>').addClass('full-body-character').addClass(name);
-      console.log(action)
       if (action[4]) {
         charaEl.addClass(action[4]);
       }
